@@ -2,7 +2,6 @@ import enum
 from numpy import arange
 from math import cos, sin
 from math import pi
-from numpy import sign
 
 
 class SignalState(enum.Enum):
@@ -12,9 +11,16 @@ class SignalState(enum.Enum):
 
 # constants
 AMPLITUDE = 5
-STEP = 0.001
+STEP = 0.01
 PHASE = 0
 MAX_TIME = 10
+
+
+def sum_for_digital(t, c_f):
+    s = 0
+    for i in arange(start=1, stop=1000, step=1):
+        s += sin(c_f * t * (2 * i - 1)) / (2 * i - 1)
+    return s
 
 
 class Signal(object):
@@ -32,12 +38,5 @@ class Signal(object):
         else:
             for t in arange(start=0, stop=MAX_TIME, step=STEP):
                 points[0].append(t)
-                points[1].append(AMPLITUDE * 4 / pi * self.sum_for_digital(t, cycle_frequency))
+                points[1].append(AMPLITUDE * 4 / pi * sum_for_digital(t, cycle_frequency))
         return points
-
-    def sum_for_digital(self, t, c_f):
-        s = 0
-        for i in arange(start=1, stop=1000, step=1):
-            s += sin(c_f*t*(2*i-1))/(2*i-1)
-        return s
-
