@@ -2,46 +2,56 @@ from matplotlib import pyplot as plt
 
 import Signal
 
-'''def create_draw_components(code):
+fig, ax = plt.subplots(4, 1, layout='constrained')
+def create_draw_components(code):
     frequencies = [1, 2, 4, 8]
-    if code == 1:
-
-
-def onclick(event):
-    if event.button == 1:'''
-
-
-if __name__ == '__main__':
-    frequencies = [1, 2, 4, 8]
-
-    fig, ax = plt.subplots(4, 2, layout='constrained')
 
     harmonic = Signal.Signal(1, Signal.SignalState.HARMONIC)
     digital = Signal.Signal(1, Signal.SignalState.DIGITAL)
-
+    points = []
 
     for i in range(len(frequencies)):
+        ax[i].cla()
         harmonic.frequency = frequencies[i]
         digital.frequency = frequencies[i]
+        if code == 1 or code == 2:
+            if code == 1:
+                points = harmonic.create_arr_of_point_for_signal()
+                ax[i].plot(points[0], points[1], color='blue', label="Гармонический")
+            elif code == 2:
+                points = digital.create_arr_of_point_for_signal()
+                ax[i].plot(points[0], points[1], color='red', label="Цифровой")
+            ax[i].set_xlabel('Сек')
+            ax[i].set_ylabel('В')
+            ax[i].set_title('Визуализация сигнала с частатой ' + str(frequencies[i]) + ' Гц')
+            ax[i].legend(loc='lower left')
+        elif code == 3 or code == 4:
+            if code == 3:
+                points = harmonic.create_arr_of_point_for_spectrum()
+                ax[i].plot(points[0][0], points[1][0], color='blue',
+                              label="Гармонический")
+            elif code == 4:
+                points = digital.create_arr_of_point_for_spectrum()
+                ax[i].plot(points[0][0], points[1][0], color='red', label="Цифровой")
+            ax[i].set_xlabel('Гц')
+            ax[i].set_ylabel('В')
+            ax[i].set_title('Визуализация спектра сигнала с частатой ' + str(frequencies[i]) + ' Гц')
+            ax[i].legend(loc='lower left')
+    plt.draw()
+    plt.pause(0.5)
 
-        points_of_harmonic = harmonic.create_arr_of_point_for_signal()
-        points_of_digital = digital.create_arr_of_point_for_signal()
-        points_of_harmonic_spectrum = harmonic.create_arr_of_point_for_spectrum()
-        points_of_digital_spectrum = digital.create_arr_of_point_for_spectrum()
+def onclick(event):
+    global index
+    if event.button == 3:
+        index += 1
+        if index > 4:
+            index = 1
+        create_draw_components(index)
 
-        ax[i][0].plot(points_of_harmonic[0], points_of_harmonic[1], color='blue', label="Гармонический")
-        ax[i][0].plot(points_of_digital[0], points_of_digital[1], color='green', label="Цифровой")
-        ax[i][0].set_xlabel('Сек')
-        ax[i][0].set_ylabel('В')
-        ax[i][0].set_title('Визуализация сигнала с частатой ' + str(frequencies[i]) + ' Гц')
-        ax[i][0].legend(loc='lower left')
 
-        ax[i][1].plot(points_of_harmonic_spectrum[0][0], points_of_harmonic_spectrum[1][0], color='blue',
-                      label="Гармонический")
-        ax[i][1].plot(points_of_digital_spectrum[0][0], points_of_digital_spectrum[1][0], color='green',
-                      label="Цифровой")
-        ax[i][1].set_xlabel('Гц')
-        ax[i][1].set_ylabel('В')
-        ax[i][1].set_title('Визуализация спектра сигнала с частатой ' + str(frequencies[i]) + ' Гц')
-        ax[i][1].legend(loc='lower left')
+if __name__ == '__main__':
+    global index
+    index = 1
+    create_draw_components(index)
+    plt.connect('button_press_event', onclick)
     plt.show()
