@@ -1,7 +1,7 @@
 import enum
 import numpy as np
 from numpy import arange
-from math import cos, sin
+from math import sin
 from math import pi
 
 
