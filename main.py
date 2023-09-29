@@ -22,7 +22,7 @@ def create_draw_components(code):
                 points = digital.create_arr_of_point_for_signal()
                 ax[i].plot(points[0], points[1], color='red', label="Цифровой")
             ax[i].set_xlabel('Сек')
-            ax[i].set_ylabel('В')
+            ax[i].set_ylabel('Аплитуда')
             ax[i].set_title('Визуализация сигнала с частатой ' + str(frequencies[i]) + ' Гц')
             ax[i].legend(loc='lower left')
         elif code == 3 or code == 4:
@@ -34,7 +34,7 @@ def create_draw_components(code):
                 points = digital.create_arr_of_point_for_spectrum()
                 ax[i].plot(points[0][0], points[1][0], color='red', label="Цифровой")
             ax[i].set_xlabel('Гц')
-            ax[i].set_ylabel('В')
+            ax[i].set_ylabel('Аплитуда')
             ax[i].set_title('Визуализация спектра сигнала с частатой ' + str(frequencies[i]) + ' Гц')
             ax[i].legend(loc='lower left')
     plt.draw()
