@@ -52,7 +52,11 @@ class Signal(object):
             points[0].append(np.fft.rfftfreq(len(signal_res), d=STEP))
         else:
             for t in TIME_OF_SIGNAL:
+
                 signal_res.append(AMPLITUDE * 4 / pi * sum_for_digital(t, cycle_frequency))
+
+            avg_value = sum(signal_res) / len(signal_res)
+            signal_res = [x - avg_value for x in signal_res]
 
             points[1].append(np.abs(np.fft.rfft(signal_res)))
             points[0].append(np.fft.rfftfreq(len(signal_res), d=STEP))

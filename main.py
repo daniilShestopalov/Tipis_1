@@ -17,6 +17,8 @@ def create_draw_components(code):
         if code == 1 or code == 2:
             if code == 1:
                 points = harmonic.create_arr_of_point_for_signal()
+                # ax[i].plot(points[0][:len(points[0])//(i + 1)], points[1][:len(points[1])//(i+1)], color='blue',
+                # label="Гармонический")
                 ax[i].plot(points[0], points[1], color='blue', label="Гармонический")
             elif code == 2:
                 points = digital.create_arr_of_point_for_signal()
@@ -26,6 +28,10 @@ def create_draw_components(code):
             ax[i].set_title('Визуализация сигнала с частатой ' + str(frequencies[i]) + ' Гц')
             ax[i].legend(loc='lower left')
         elif code == 3 or code == 4:
+            ax[i].set_xlim(0, 50)
+            ax[i].xaxis.set_major_locator(plt.MaxNLocator(50))
+            ax[i].yaxis.set_major_locator(plt.MaxNLocator(5))
+
             if code == 3:
                 points = harmonic.create_arr_of_point_for_spectrum()
                 ax[i].plot(points[0][0], points[1][0], color='blue',
